@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DepEd Malaybalay - SGOD</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deped-blue: #0038A8;
+            --deped-red: #CE1126;
+            --light-gray: #f5f7fa;
+            --dark: #1e1e2f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--light-gray);
+            color: var(--dark);
+        }
+
+        header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 8%;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-container img {
+            width: 50px;
+            height: auto;
+        }
+
+        .logo-container span {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--deped-blue);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            position: relative;
+            transition: 0.3s ease;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background: var(--deped-red);
+            transition: 0.3s ease;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        section {
+            min-height: 100vh;
+            padding: 120px 10% 80px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: 0.8s ease;
+        }
+
+        section.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            color: var(--deped-blue);
+        }
+
+        .hero span {
+            color: var(--deped-red);
+        }
+
+        .hero p {
+            margin-top: 20px;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            transition: 0.4s ease;
+            border-top: 4px solid var(--deped-blue);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-top: 4px solid var(--deped-red);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: var(--deped-blue);
+            color: white;
+        }
+
+        @media(max-width: 768px) {
+            nav ul {
+                gap: 15px;
+            }
+            .hero h1 {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <div class="logo-container">
+            <img src="newLogoDepedMC.jpg" alt="DepEd Malaybalay logo">
+            <span>DepEd Malaybalay - SGOD</span>
+        </div>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#division">SGOD Division</a></li>
+            <li><a href="#communication">Communication</a></li>
+            <li><a href="#whereabouts">Whereabouts</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section id="about" class="hero">
+    <h1>Schools Governance and <span>Operations Division</span></h1>
+    <p>
+        The SGOD of DepEd Malaybalay supports effective school governance, program implementation, and monitoring mechanisms to ensure quality education delivery.
+    </p>
+</section>
+
+<section id="division">
+    <h2>SGOD Division Portfolio</h2>
+    <div class="card-container">
+        <div class="card">
+            <h3>Planning & Research</h3>
+            <p>Development of baseline, midline, and endline reports for evidence-based decision-making.</p>
+        </div>
+        <div class="card">
+            <h3>School Monitoring</h3>
+            <p>Implementation monitoring, technical assistance, and compliance validation.</p>
+        </div>
+        <div class="card">
+            <h3>Youth Formation</h3>
+            <p>Leadership programs, student governance, and character development initiatives.</p>
+        </div>
+    </div>
+</section>
+
+<section id="communication">
+    <h2>Communication</h2>
+    <div class="card-container">
+        <div class="card">
+            <h3>Memoranda</h3>
+            <p>Official issuances and downloadable documents.</p>
+        </div>
+        <div class="card">
+            <h3>Announcements</h3>
+            <p>Division-wide updates and advisories.</p>
+        </div>
+    </div>
+</section>
+
+<section id="whereabouts">
+    <h2>Whereabouts</h2>
+    <p>Office Address: Malaybalay City, Bukidnon<br>
+    Email: sgod.malaybalay@deped.gov.ph<br>
+    Office Hours: Monday–Friday, 8:00 AM – 5:00 PM</p>
+</section>
+
+<footer>
+    © 2026 DepEd Malaybalay - SGOD | All Rights Reserved
+</footer>
+
+<script>
+    const sections = document.querySelectorAll("section");
+
+    const revealSection = () => {
+        const triggerBottom = window.innerHeight * 0.85;
+        sections.forEach(section => {
+            const sectionTop = section.getBoundingClientRect().top;
+            if(sectionTop < triggerBottom) {
+                section.classList.add("active");
+            }
+        });
+    };
+
+    window.addEventListener("scroll", revealSection);
+    window.addEventListener("load", revealSection);
+</script>
+
+</body>
+</html>
