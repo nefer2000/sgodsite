@@ -59,6 +59,17 @@
             color: var(--deped-blue);
         }
 
+        .menu-toggle {
+            display: none;
+            border: 0;
+            background: var(--deped-blue);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
         nav ul {
             list-style: none;
             display: flex;
@@ -143,6 +154,35 @@
             border-top: 4px solid var(--deped-red);
         }
 
+        .card.in-view {
+            animation: cardPop 0.5s ease both;
+        }
+
+        .top-btn {
+            position: fixed;
+            right: 18px;
+            bottom: 18px;
+            border: 0;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--deped-red);
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px);
+            transition: 0.3s ease;
+        }
+
+        .top-btn.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
         footer {
             text-align: center;
             padding: 30px;
@@ -150,12 +190,102 @@
             color: white;
         }
 
-        @media(max-width: 768px) {
-            nav ul {
-                gap: 15px;
+        @keyframes cardPop {
+            from {
+                opacity: 0.6;
+                transform: translateY(12px) scale(0.98);
             }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @media(max-width: 1024px) {
+            nav {
+                padding: 12px 5%;
+            }
+
+            section {
+                padding: 110px 7% 70px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .card-container {
+                gap: 18px;
+            }
+        }
+
+        @media(max-width: 768px) {
+            .menu-toggle {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            nav {
+                position: relative;
+            }
+
+            nav ul {
+                position: absolute;
+                right: 5%;
+                top: calc(100% + 8px);
+                flex-direction: column;
+                gap: 10px;
+                background: white;
+                padding: 14px;
+                border-radius: 12px;
+                box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+                min-width: 220px;
+                opacity: 0;
+                pointer-events: none;
+                transform: translateY(-8px);
+                transition: 0.25s ease;
+            }
+
+            nav ul.open {
+                opacity: 1;
+                pointer-events: auto;
+                transform: translateY(0);
+            }
+
             .hero h1 {
                 font-size: 30px;
+            }
+
+            .logo-container span {
+                font-size: 15px;
+            }
+
+            section {
+                min-height: auto;
+                padding: 100px 6% 60px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+
+        @media(max-width: 480px) {
+            .logo-container img {
+                width: 40px;
+            }
+
+            .logo-container span {
+                font-size: 14px;
+            }
+
+            .hero h1 {
+                font-size: 26px;
+            }
+
+            .hero p {
+                font-size: 14px;
             }
         }
     </style>
@@ -168,7 +298,8 @@
             <img src="newLogoDepedMC.jpg" alt="DepEd Malaybalay logo">
             <span>DepEd Malaybalay - SGOD</span>
         </div>
-        <ul>
+        <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">Menu</button>
+        <ul id="main-nav">
             <li><a href="#about">About</a></li>
             <li><a href="#division">SGOD Division</a></li>
             <li><a href="#communication">Communication</a></li>
@@ -220,28 +351,59 @@
     <h2>Whereabouts</h2>
     <p>Office Address: Malaybalay City, Bukidnon<br>
     Email: sgod.malaybalay@deped.gov.ph<br>
-    Office Hours: Monday–Friday, 8:00 AM – 5:00 PM</p>
+    Office Hours: Monday-Friday, 8:00 AM - 5:00 PM</p>
 </section>
 
 <footer>
-    © 2026 DepEd Malaybalay - SGOD | All Rights Reserved
+    &copy; 2026 DepEd Malaybalay - SGOD | All Rights Reserved
 </footer>
+
+<button class="top-btn" id="topBtn" aria-label="Scroll to top">?</button>
 
 <script>
     const sections = document.querySelectorAll("section");
+    const cards = document.querySelectorAll(".card");
+    const navLinks = document.querySelectorAll("#main-nav a");
+    const menuToggle = document.querySelector(".menu-toggle");
+    const mainNav = document.getElementById("main-nav");
+    const topBtn = document.getElementById("topBtn");
 
-    const revealSection = () => {
-        const triggerBottom = window.innerHeight * 0.85;
-        sections.forEach(section => {
-            const sectionTop = section.getBoundingClientRect().top;
-            if(sectionTop < triggerBottom) {
-                section.classList.add("active");
-            }
+    const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("active");
+            const id = entry.target.getAttribute("id");
+            navLinks.forEach((link) => {
+                link.style.color = link.getAttribute("href") === `#${id}` ? "var(--deped-red)" : "var(--dark)";
+            });
         });
-    };
+    }, { threshold: 0.3 });
 
-    window.addEventListener("scroll", revealSection);
-    window.addEventListener("load", revealSection);
+    sections.forEach((section) => sectionObserver.observe(section));
+
+    const cardObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) entry.target.classList.add("in-view");
+        });
+    }, { threshold: 0.2 });
+
+    cards.forEach((card) => cardObserver.observe(card));
+
+    menuToggle.addEventListener("click", () => {
+        const isOpen = mainNav.classList.toggle("open");
+        menuToggle.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    navLinks.forEach((link) => link.addEventListener("click", () => {
+        mainNav.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+    }));
+
+    window.addEventListener("scroll", () => {
+        topBtn.classList.toggle("show", window.scrollY > 320);
+    }, { passive: true });
+
+    topBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 </script>
 
 </body>
